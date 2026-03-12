@@ -13,6 +13,8 @@ func main() {
 
 	server.GET("/events", getEvents) // handler for inconming http requests (get, post, put, patch, delete)
 	server.POST("/events", createEvent)
+	server.GET("/events2", getEvents) // handler for inconming http requests (get, post, put, patch, delete)
+	server.POST("/events2", createEvent)
 
 	server.Run(":8080") // starts this server on localhost:8080
 }
@@ -32,5 +34,8 @@ func createEvent(context *gin.Context) {
 
 	event.ID = 1
 	event.UserID = 1
+
+	event.Save()
+
 	context.JSON(http.StatusCreated, gin.H{"message": "Event created", "event": event})
 }
