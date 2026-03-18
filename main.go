@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"learnRestApi/db"
 	"learnRestApi/models"
@@ -13,10 +14,9 @@ func main() {
 	db.InitDB()
 	server := gin.Default() // creates web server with basic functionality
 
-	server.GET("/events", getEvents) // handler for inconming http requests (get, post, put, patch, delete)
+	server.GET("/events", getEvents)    // handler for inconming http requests (get, post, put, patch, delete)
+	server.GET("/events/:id", getEvent) //events/1,  /events/5, etc
 	server.POST("/events", createEvent)
-	server.GET("/events2", getEvents) // handler for inconming http requests (get, post, put, patch, delete)
-	server.POST("/events2", createEvent)
 
 	server.Run(":8080") // starts this server on localhost:8080
 }
@@ -28,6 +28,16 @@ func getEvents(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, events)
+}
+
+func getEvent(context *gin.Context) {
+	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse eventID"})
+		return
+	}
+
 }
 
 func createEvent(context *gin.Context) {
