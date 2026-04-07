@@ -40,7 +40,7 @@ func login(context *gin.Context) {
 	err = user.ValidateCredentials()
 
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Could not authenticate user."})
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Could not authenticate user (this is here)."})
 		return
 	}
 
